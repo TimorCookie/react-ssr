@@ -1,6 +1,8 @@
-export const FETCH_HOME_DATA = 'fetch_home_data'
-
-export const fetchHomeData = async (dispatch) => {
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+const initialState = {
+  employees: []
+}
+export const fetchHomeData = createAsyncThunk('fetch_home_data', async () => {
   const data = await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({
@@ -22,10 +24,22 @@ export const fetchHomeData = async (dispatch) => {
           },
         ]
       })
-    }, 2000)
+    }, 1000)
   })
-  dispatch({
-    type: FETCH_HOME_DATA,
-    payload: data
-  })
-}
+  return data
+})
+
+const homeSlice = createSlice({
+  name: 'home',
+  initialState,
+  reducers: {
+
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchHomeData.fulfilled, (state, action) => {
+      state.employees = action?.payload?.employees
+    })
+  }
+})
+
+export default homeSlice.reducer

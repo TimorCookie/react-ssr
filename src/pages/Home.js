@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchHomeData } from '../store/actions/homeActions'
+import { fetchHomeData } from '../store/features/homeSlice'
 function Home() {
   const [count, setCount] = useState(0);
   const dispatch = useDispatch()
@@ -8,9 +8,8 @@ function Home() {
   function handleClick() {
     setCount(count + 1);
   }
-
   useEffect(() => {
-    dispatch(fetchHomeData)
+    dispatch(fetchHomeData())
   }, [])
   return (
     <div>
@@ -31,5 +30,8 @@ function Home() {
   )
 }
 
+Home.getInitialData = async (store) => {
+  return store.dispatch(fetchHomeData())
+}
 
 export default Home

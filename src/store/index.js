@@ -1,12 +1,29 @@
-import { legacy_createStore, applyMiddleware } from 'redux'
-import { thunk } from 'redux-thunk';
 
-import reducer from './reducers'
+import { configureStore } from "@reduxjs/toolkit";
+import homeReducer from "./features/homeSlice";
+import userSlice from "./features/userSlice";
 
-const store = legacy_createStore(reducer, applyMiddleware(thunk))
-export default store
 
-// store 改造
-// export default function createStoreInstance(preloadedState = {}) {
-//   return legacy_createStore(reducer, preloadedState, applyMiddleware(thunk))
-// }
+// const store = configureStore({
+
+//   reducer: {
+//     home: homeReducer,
+//     user: userSlice
+//   },
+// });
+// export default store;
+
+
+export default function createConfigureStore(preloadedState = {}) {
+  return configureStore({
+    // 合并多个Slice
+    reducer: {
+      home: homeReducer,
+      user: userSlice
+    },
+    preloadedState
+  })
+}
+
+
+

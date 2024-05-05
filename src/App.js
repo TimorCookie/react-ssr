@@ -4,6 +4,16 @@ import { Link, Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import User from "./pages/User"
 
+export const routesConfig = [
+  {
+    path: '/',
+    component: Home
+  },
+  {
+    path: '/user',
+    component: User
+  }
+]
 const App = () => {
   return (
     <div>
@@ -16,11 +26,15 @@ const App = () => {
         </li>
       </ul>
       <Routes>
-        <Route exact path="/" element={<Home />}></Route>
-        <Route exact path="/user" element={<User />}></Route>
+        {routesConfig.map(route => {
+          const { path, component } = route
+          return <Route exact path={path} Component={component} key={path}></Route>
+        })}
       </Routes>
     </div>
   )
 }
+
+
 
 export default App
